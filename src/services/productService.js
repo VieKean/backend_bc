@@ -78,18 +78,7 @@ const updateProduct = async (productId, product_name, price, category_id, image,
     }
 };
 // Lấy dữ liệu cơ sở dữ liệu theo category
-const getProductByCategory = async (categoryId) => {
-    try {
-      const products = await db.Product.findAll({
-        where: { category_id: categoryId },
-        include: [{ model: db.Category, attributes: ['category_name'] }], // Nếu cần tên category
-      });
-      return products;
-    } catch (error) {
-      console.error('Error fetching products by category:', error);
-      throw error;
-    }
-  };
 
 
-export default { getAllProducts, createNewProduct, deleteProduct, getProductById, updateProduct , getProductByCategory };
+
+export default { getAllProducts, createNewProduct, deleteProduct, getProductById, updateProduct };

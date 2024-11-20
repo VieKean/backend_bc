@@ -22,4 +22,6 @@ const getCustomerById = async (customerId) => {
 
 
 
+
+
 export default { getAllCustomer, getCustomerById }

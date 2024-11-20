@@ -18,6 +18,9 @@ const port = process.env.PORT || 3000;
 app.use('/uploads', express.static(path.join(__dirname, 'src', 'public', 'uploads')));
 app.use('/images', express.static(path.join(__dirname, 'src', 'public', 'images')));
 
+
+
+
 // Initialize client.
 let redisClient = createClient()
 redisClient.connect().catch(console.error)
@@ -36,11 +39,11 @@ app.use(cors({
 }));
 
 app.use(session({
-    store: redisStore,
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false, 
-    cookie: { secure: false }
+  store: redisStore,
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }
 }))
 
 app.use(bodyParser.json());
@@ -55,5 +58,5 @@ initAPIRoute(app);
 configViewEngine(app);
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Example app listening at http://localhost:${port}`);
 });

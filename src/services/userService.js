@@ -38,8 +38,99 @@ const createNewAccount = async (username, password, fullname, address, phonenumb
     }
 };
 
+// const createNewCustomer = async (username, password, fullname, address, phonenumber, email, role) => {
+//     try {
+//         const hashedPassword = hashPassword(password);
+//         const newAccount = await db.Customer.create({
+//             username,
+//             password: hashedPassword,
+//             full_name: fullname,
+//             address,
+//             phone_number: phonenumber,
+//             email,
+//             role,
+//             creation_date: new Date()
+//         });
+//         return newAccount;
+//     } catch (error) {
+//         console.error('Error creating account:', error);
+//         throw error;
+//     }
+// };
+
+// check check check input
+const checkUsername = async (username) => {
+    let check = await db.Customer.findOne(
+        {
+            where: { username: username }
+        }
+    )
+    if (check) {
+        return true
+    }
+
+    return false
+}
+
+const checkEmail = async (email) => {
+    let check = await db.Customer.findOne(
+        {
+            where: { email: email }
+        }
+    )
+    if (check) {
+        return true
+    }
+
+    return false
+}
+
+const checkPhoneNumber = async (phonenumber) => {
+    let check = await db.Customer.findOne(
+        {
+            where: { phone_number: phonenumber }
+        }
+    )
+    if (check) {
+        return true
+    }
+
+    return false
+}
+
 const createNewCustomer = async (username, password, fullname, address, phonenumber, email, role) => {
     try {
+
+        let check1 = await checkUsername(username)
+        let check2 = await checkEmail(email)
+        let check3 = await checkPhoneNumber(phonenumber)
+
+        if (check1 === true) {
+            console.log('tồn tại r')
+            return {
+                err: '1',
+                message: 'Tài khoản đã tồn tại',
+                data: ''
+            }
+        }
+        if (check2 === true) {
+            console.log('tồn tại r')
+            return {
+                err: '1',
+                message: 'Email đã tồn tại',
+                data: ''
+            }
+        }
+
+        if (check3 === true) {
+            console.log('tồn tại r')
+            return {
+                err: '1',
+                message: 'Số điện thoại đã tồn tại',
+                data: ''
+            }
+        }
+
         const hashedPassword = hashPassword(password);
         const newAccount = await db.Customer.create({
             username,
@@ -57,6 +148,10 @@ const createNewCustomer = async (username, password, fullname, address, phonenum
         throw error;
     }
 };
+
+
+
+
 
 const deleteAccount = async (id) => {
     try {
@@ -117,4 +212,4 @@ const checkLoginCustomer = async (username, password) => {
 };
 
 
-export default { getAllAccounts, createNewAccount, deleteAccount, getAccountById, updateAccount, checkLogin , createNewCustomer, checkLoginCustomer };
+export default { getAllAccounts, createNewAccount, deleteAccount, getAccountById, updateAccount, checkLogin, createNewCustomer, checkLoginCustomer };

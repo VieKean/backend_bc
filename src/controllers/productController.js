@@ -94,43 +94,7 @@ const handleUpdateProduct = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
-const handleProductByCategory = async (req, res) => {
-    try {
-        const categoryId = req.params.category_id;
-
-        // Xác thực categoryId là số
-        if (isNaN(categoryId)) {
-            console.error(`Invalid category ID: ${categoryId}`);
-            return res.status(400).send('Invalid category ID');
-        }
-
-        const products = await productServices.getProductByCategory(categoryId);
-        const categories = await categoryServices.getAllCategory();
-        
-        // Tìm category theo categoryId
-        const category = categories.find(c => c.id === parseInt(categoryId));
-
-        // Kiểm tra xem category có được tìm thấy không
-        if (!category) {
-            console.error(`Category with ID ${categoryId} not found`);
-            return res.status(404).send('Category not found');
-        }
-
-        // Truyền vào view
-        res.render('home.ejs', {
-            data: {
-                title: 'Product List By Category',
-                page: 'product-category',
-                rows: products,
-                category: category.category_name,
-            }
-        });
-    } catch (error) {
-        console.error('Error fetching product data:', error);
-        res.status(500).send('Internal Server Error');
-    }
-};
 
 
 
-export default { handleProductPage, handleCreateProduct, handleDeleteProduct, handleEditProductPage, handleUpdateProduct, handleProductByCategory };
+export default { handleProductPage, handleCreateProduct, handleDeleteProduct, handleEditProductPage, handleUpdateProduct };

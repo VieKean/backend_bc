@@ -6,7 +6,7 @@ const getAllCategory = async () => {
         return categories;
     } catch (error) {
         console.error('Error fetching categories:', error);
-        throw error;    
+        throw error;
     }
 }
 const createNewCategory = async (categoryName) => {
@@ -15,7 +15,7 @@ const createNewCategory = async (categoryName) => {
         return newCategory;
     } catch (error) {
         console.error('Error creating category:', error);
-        throw error;    
+        throw error;
     }
 }
 
@@ -24,7 +24,7 @@ const deleteCategory = async (categoryId) => {
         await db.Category.destroy({ where: { id: categoryId } });
     } catch (error) {
         console.error('Error deleting category:', error);
-        throw error;    
+        throw error;
     }
 }
 const updateCategory = async (categoryId, categoryName) => {
@@ -32,7 +32,7 @@ const updateCategory = async (categoryId, categoryName) => {
         await db.Category.update({ category_name: categoryName }, { where: { id: categoryId } });
     } catch (error) {
         console.error('Error updating category:', error);
-        throw error;    
+        throw error;
     }
 }
 
