@@ -28,6 +28,7 @@ const initWebRoute = (app) => {
     router.get('/product/delete/:id', checklogin, productController.handleDeleteProduct);
     router.get('/product/edit/:id', checklogin, productController.handleEditProductPage);
     router.post('/product/edit/:id', checklogin, upload.single('image'), productController.handleUpdateProduct);
+    router.get('/product-category/:category_id', checklogin, productController.handleProductByCategory);
 
     router.get('/customer', checklogin, customerController.handleCustomerPage);
     router.get('/customer/:id', checklogin, customerController.handleCustomerDetailPage);

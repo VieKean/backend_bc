@@ -19,5 +19,16 @@ const getProductById = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+const fetchProductsByCategory = async (req, res) => {
+    try {
+        const categoryId = req.params.id;
+        const products = await productService.getProductByCategory(categoryId);
+        res.status(200).json(products);
+        
+    } catch (err) {
+        console.error('Failed to fetch products by category:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
 
-export default { fetchAllProducts, getProductById };
+export default { fetchAllProducts, getProductById, fetchProductsByCategory };

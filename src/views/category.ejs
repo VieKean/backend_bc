@@ -52,12 +52,12 @@
                                     <td><%= category.category_name %></td>
                                     <td>
                                         <!-- View Button -->
-                                        <a href="#" class="btn btn-info btn-sm">View</a>
+                                        <a href="/product-category/<%= category.id%>" class="btn btn-info btn-sm">View Products</a>
 
                                         <!-- Edit Button -->
                                         <button type="button" class="btn btn-warning btn-sm edit-btn" data-bs-toggle="popover"
                                                 data-bs-html="true" data-bs-content="
-                                                <form id='editForm_<%= category.category_id %>' action='/category/update/<%= category.category_id %>' method='POST'>
+                                                <form id='editForm_<%= category.category_id %>' action='/category/update/<%= category.id %>' method='POST'>
                                                     <div class='mb-2'>
                                                         <label for='category_name_<%= category.category_id %>' class='form-label'>New Category Name</label>
                                                         <input type='text' class='form-control' id='category_name_<%= category.category_id %>' 

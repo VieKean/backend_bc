@@ -14,7 +14,7 @@ const initAPIRoute = (app) => {
   // Product routes
   router.get('/product', apiProductController.fetchAllProducts);
   router.get('/product/:id', apiProductController.getProductById);
-
+  router.get('/product-category/:id', apiProductController.fetchProductsByCategory);
   // Category routes
   router.get('/category', apiCategoryController.fetchAllCategories);
 
