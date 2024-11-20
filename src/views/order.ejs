@@ -1,0 +1,102 @@
+<!-- order.ejs -->
+<div class="mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <%= data.title %>
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Customer Name</th>
+                                <th>Order Date</th>
+                                <th>Total Price</th>
+                                <th>Payment Method</th>
+                                <th>Total Products</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for (let index = 0; index < data.rows.length; index++) { const order = data.rows[index]; %>
+                                <tr>
+                                    <th scope="row"><%= index + 1 %></th>
+                                    <td><%= order.Customer?.full_name || 'Unknown Customer' %></td>
+                                    <td><%= order.order_date ? order.order_date.toISOString().split('T')[0] : 'N/A' %></td>
+                                    <td>$<%= order.total_price ? order.total_price.toFixed(2) : '0.00' %></td>
+                                    <td><%= order.payment_method || 'Unknown' %></td>
+                                    <td><%= order.total_products %></td>
+                                    <td>
+                                        <form action="/order/update-status/<%= order.id %>" method="POST">
+                                            <input type="hidden" name="id" value="<%= order.id %>">
+                                            
+                                            <p><strong>Current Status: </strong><%= order.status.charAt(0).toUpperCase() + order.status.slice(1) %></p>
+                                            
+                                            <select name="status" class="form-select form-select-sm" onchange="showUpdateButton(this)">
+                                                <option value="pending" <%= order.status === 'pending' ? 'selected' : '' %>>Pending</option>
+                                                <option value="processing" <%= order.status === 'processing' ? 'selected' : '' %>>Processing</option>
+                                                <option value="shipped" <%= order.status === 'shipped' ? 'selected' : '' %>>Shipped</option>
+                                                <option value="delivered" <%= order.status === 'delivered' ? 'selected' : '' %>>Delivered</option>
+                                                <option value="cancelled" <%= order.status === 'cancelled' ? 'selected' : '' %>>Cancelled</option>
+                                            </select>
+                                            
+                                            <input type="text" name="updatedBy" value="<%= data.username %>" class="form-control form-control-sm mt-2" readonly style="display:none;">
+                                            <textarea name="changeReason" class="form-control form-control-sm mt-2" placeholder="Reason for status change" rows="3" style="display:none;"></textarea>
+                                            
+                                            <input type="submit" id="updateButton<%= order.id %>" class="btn btn-success btn-sm mt-2" value="Update" style="display:none;">
+                                            <button type="button" id="cancelButton<%= order.id %>" class="btn btn-secondary btn-sm mt-2" onclick="cancelUpdate('<%= order.id %>')" style="display:none;">Cancel</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <a href="/order/view/<%= order.id %>" class="btn btn-primary btn-sm">View Detail</a>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showUpdateButton(selectElement) {
+        const selectedStatus = selectElement.value;
+        const currentStatus = selectElement.querySelector('option[selected]').value;
+
+        const form = selectElement.closest('form');
+        const updateButton = form.querySelector('input[type="submit"]');
+        const cancelButton = form.querySelector('button[type="button"]');
+        const changeReasonField = form.querySelector('textarea[name="changeReason"]');
+        const updatedByField = form.querySelector('input[name="updatedBy"]');
+
+        if (selectedStatus !== currentStatus) {
+            updateButton.style.display = 'inline-block';
+            cancelButton.style.display = 'inline-block';
+            changeReasonField.style.display = 'block';
+            updatedByField.style.display = 'block';
+        } else {
+            updateButton.style.display = 'none';
+            cancelButton.style.display = 'none';
+            changeReasonField.style.display = 'none';
+            updatedByField.style.display = 'none';
+        }
+    }
+
+    function cancelUpdate(orderId) {
+        const form = document.querySelector(`form[action="/order/update-status/${orderId}"]`);
+        const select = form.querySelector('select');
+        const currentStatus = form.querySelector('p').textContent.split(': ')[1].toLowerCase();
+        select.value = currentStatus;
+        form.querySelector('input[type="submit"]').style.display = 'none';
+        form.querySelector('button[type="button"]').style.display = 'none';
+        form.querySelector('textarea[name="changeReason"]').style.display = 'none';
+        form.querySelector('input[name="updatedBy"]').style.display = 'none';
+    }
+</script>

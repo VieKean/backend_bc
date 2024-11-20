@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="mb-3">
+        <a href="/account" class="btn btn-secondary">Back to Account List</a>
+    </div>
+
+    <!-- Update Account Form -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Update Account</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" action="/account/update/<%= accountData.id %>" id="updateAccountForm">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username:</label>
+                    <input type="text" class="form-control" id="username" name="username" value="<%= accountData.username %>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="fullname" class="form-label">Fullname:</label>
+                    <input type="text" class="form-control" id="fullname" name="fullname" value="<%= accountData.full_name %>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address:</label>
+                    <input type="text" class="form-control" id="address" name="address" value="<%= accountData.address %>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phonenumber" class="form-label">Phone Number:</label>
+                    <input type="text" class="form-control" id="phonenumber" name="phonenumber" value="<%= accountData.phone_number %>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" value="<%= accountData.email %>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role:</label>
+                    <select class="form-control" id="role" name="role" required>
+                        <option value="staff" <%= accountData.role === 'staff' ? 'selected' : '' %>>Staff</option>
+                        <option value="admin" <%= accountData.role === 'admin' ? 'selected' : '' %>>Admin</option>
+                    </select>
+                </div>
+                <div class="text-danger" id="error-message" style="display: none;">Passwords do not match!</div>
+                <button type="submit" class="btn btn-primary">Update Account</button>
+            </form>
+        </div>
+    </div>
+</div>

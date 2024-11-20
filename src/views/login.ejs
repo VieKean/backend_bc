@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý cửa hàng của bạn - Báo Gear</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <!-- Thêm Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Thêm Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="/images/logo.jpg" alt="Báo Gear Logo">
+        </div>
+        <h1>QUẢN LÝ CỬA HÀNG CỦA BẠN</h1>
+        <% if (typeof message !=='undefined' ) { %>
+            <div class="error-message">
+                <%= message %>
+            </div>
+        <% } %>
+
+        <form action="/login" method="POST">
+            <div class="form-group mb-3">
+                <input type="text" name="username" class="form-control" placeholder="Tài khoản của bạn" required>
+            </div>
+            <div class="form-group mb-3 position-relative">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Mật khẩu đăng nhập cửa hàng" required>
+                <span class="position-absolute top-50 end-0 translate-middle-y me-3">
+                    <i id="togglePassword" class="bi bi-eye-slash cursor-pointer"></i>
+                </span>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+        </form>
+    </div>
+
+    <!-- Thêm Bootstrap JS và Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script hiển thị/ẩn mật khẩu -->
+    <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const passwordField = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', function () {
+            // Chuyển đổi type của input password
+            const type = passwordField.type === 'password' ? 'text' : 'password';
+            passwordField.type = type;
+
+            // Đổi icon
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+        });
+    </script>
+</body>
+
+</html>

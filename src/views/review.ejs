@@ -1,0 +1,67 @@
+<!-- review.ejs -->
+<div class="mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        Review Management
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Rating</th>
+                                <th>Review Text</th>
+                                <th>Review Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (reviews && reviews.length > 0) { %>
+                                <% reviews.forEach(review => { %>
+                                    <tr>
+                                        <td><%= review.id %></td>
+                                        <td><%= review.customer ? review.customer.full_name : 'N/A' %></td>
+                                        <td>
+                                            <%= review.product ? review.product.product_name : 'N/A' %>
+                                            <!-- Hiển thị số lượng đánh giá cho mỗi sao khi click vào tên sản phẩm -->
+                                            <div>
+                                                <a href="javascript:void(0);" onclick="showRatingBreakdown('<%= review.product_id %>')">View Rating Breakdown</a>
+                                            </div>
+                                            <div id="rating-breakdown-<%= review.product_id %>" style="display:none;">
+                                                <% if (productRatings[review.product_id]) { %>
+                                                    <% Object.keys(productRatings[review.product_id]).forEach(rating => { %>
+                                                        <p><%= rating %> stars: <%= productRatings[review.product_id][rating] %> reviews</p>
+                                                    <% }) %>
+                                                <% } %>
+                                            </div>
+                                        </td>
+                                        <td><%= review.rating %></td>
+                                        <td><%= review.review_text %></td>
+                                        <td><%= review.review_date %></td>
+                                    </tr>
+                                <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="6" class="text-center">No reviews found</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Hàm để hiển thị/ẩn phân tích đánh giá của sản phẩm
+    function showRatingBreakdown(productId) {
+        const breakdownDiv = document.getElementById(`rating-breakdown-${productId}`);
+        breakdownDiv.style.display = breakdownDiv.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
